@@ -1,0 +1,173 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <style>
+    </style>
+    <script>
+    function start() {
+        $.ajax({
+            url: "../../TetrisGame/Start",
+            data: {"BType":"1"},
+            success: function () { alert("开始")}
+        })
+    }
+    function lefts() {
+        $.ajax({
+            url: "../../TetrisGame/left",
+            data: { "BType": "1" },
+            success: left,
+        })
+    }
+    function rights() {
+        $.ajax({
+            url: "../../TetrisGame/right",
+            data: { "BType": "1" },
+            success: right,
+        })
+    }
+    function downs() {
+        $.ajax({
+            url: "../../TetrisGame/down",
+            data: { "BType": "1" },
+            success: down,
+        })
+    }
+    function left(data) {
+        if (data == "左移返回消息") {
+            alert(data+"2");
+            //$("#1").height();
+            //alert("ok")
+            var x = $("#div1").position().left -30;
+            $("#div1").css("left", x + "px");
+            var x = $("#div2").position().left - 30;
+            $("#div2").css("left", x + "px");
+            var x = $("#div3").position().left - 30;
+            $("#div3").css("left", x + "px");
+            var x = $("#div4").position().left - 30;
+            $("#div4").css("left", x + "px");
+        }
+        else if(data=="0"){
+            $("#div2").remove();
+        }
+        else {
+            alert(data);          
+        }
+    }
+    function down(data) {
+        
+        if (data == "向下移动返回消息")
+        {
+            var x = $("#1").find("div").position().top + 30;
+            $("#1").find("div").css("top", x + "px");
+            //var x = $("#div1").position().top + 30;
+            //$("#div1").css("top", x + "px");
+            //var x = $("#div2").position().top + 30;
+            //$("#div2").css("top", x + "px");
+            //var x = $("#div3").position().top + 30;
+            //$("#div3").css("top", x + "px");
+            //var x = $("#div4").position().top + 30;
+            //$("#div4").css("top", x + "px");
+        }
+        else if (data == "到达底部") {
+            $("#8").css("display","block");
+            $("#1").css("display", "none");
+            $.ajax({
+                url: "../../TetrisGame/down",
+                data: { "BType": "8" },
+            })
+            alert("from 8");
+        }
+        else {
+            alert(data);
+        }
+    }
+    function right(data) {
+        if (data == "右移返回消息") {
+            //$("#1").height();
+            //alert("ok")
+            var x = $("#div1").position().left + 30;
+            $("#div1").css("left", x + "px");
+            var x = $("#div2").position().left + 30;
+            $("#div2").css("left", x + "px");
+            var x = $("#div3").position().left + 30;
+            $("#div3").css("left", x + "px");
+            var x = $("#div4").position().left + 30;
+            $("#div4").css("left", x + "px");
+        }
+         
+        else {
+            alert(data);
+        }
+    }
+    </script>
+</head>
+<body>
+    <div style="float:left">
+        @Model
+        <input type="button" name="开始" value="开始" onclick="start()" />
+        <input type="button" name="暂停" value="暂停" onclick="stop()" />
+        <input type="button" name="旋转" value="旋转" onclick="swi()" />
+        <input type="button" name="左移" value="左移" onclick="lefts()" />
+        <input type="button" name="右移" value="右移" onclick="rights()" />
+        <input type="button" name="下落" value="下落" onclick="downs()" />
+    </div>
+<div id="TopPos" style="position:relative;width:300px;height:630px;margin:auto;border:dotted">
+    <div id="1" style="display:normal">
+        <div id="div1" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="8" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="2" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:150px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:180px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="3"style="display:none">
+        <div id="div1" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:60px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="4" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="5" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="6" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+    <div id="7" style="display:none">
+        <div id="div1" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div2" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div3" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
+        <div id="div4" style="position:absolute;left:150px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
+    </div>
+</div>
+</body>
+</html>
