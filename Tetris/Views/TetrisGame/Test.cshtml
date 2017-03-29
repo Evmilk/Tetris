@@ -10,16 +10,25 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
     <title>Test</title>
     <script>
-        function dis(){
-          $("#d1").css("display","block")
+        function dis() {
+            $("#d1").css("display","none");
+            alert("hello");
         }
     </script>
 </head>
 <body>
-    <div id="d1" style="display:none"> hello
+    asdf
+    <div id="d1" style="display:block"> hello
     </div>
-    <button onclick="dis()" >显示</button>
+    <button onclick="dis()" >显示</button> 
+       
+    @foreach (var item in Model)
+    {
+        <div>@item</div>
+    }
+   <div id="d">a</div>
 </body>
 </html>

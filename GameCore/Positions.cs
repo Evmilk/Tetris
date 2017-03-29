@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameCore
 {
+    /// <summary>
+    /// 俄罗斯方块21列10行
+    /// </summary>
     public static class Positions
     {
         //记录方块位置与数据(0为空，1为占据)
@@ -25,6 +28,14 @@ namespace GameCore
     {
         #region 初始图形位置定位
         //返回图形位置
+        /*
+        表达时注意数组的属性从零开始计算
+             */
+
+        /*
+      表达形状   00
+                  00  
+          */
         public void OnePosition()
         {
             Positions.PositionValue[20, 3] = 1;
@@ -33,63 +44,80 @@ namespace GameCore
             Positions.PositionValue[19, 5] = 1;
             OriStatePre(new int[] { 3, 4, 4, 5 }, new int[] { 20, 20, 19, 19 });
         }
-        //返回图形位置    
+        /*
+         表达形状   0000
+           
+         */
         public void TwoPosition()
         {
             Positions.PositionValue[20, 3] = 1;
             Positions.PositionValue[20, 4] = 1;
+            Positions.PositionValue[20, 5] = 1;
+            Positions.PositionValue[20, 6] = 1;
+            OriStatePre(new int[] { 3, 4, 5, 6 }, new int[] { 20, 20, 20, 20 });
+
+        }
+        /*
+         表达形状   00
+                   00
+           */
+        public void ThreePosition()
+        {
+            Positions.PositionValue[20, 5] = 1;
+            Positions.PositionValue[20, 4] = 1;
+            Positions.PositionValue[19, 4] = 1;
+            Positions.PositionValue[19, 3] = 1;
+            OriStatePre(new int[] { 5, 4, 4, 3 }, new int[] { 20, 20, 19, 19 });
+        }
+        /*
+         表达形状   00
+                    00
+           */
+        public void FourPosition()
+        {
+            Positions.PositionValue[20, 4] = 1;
+            Positions.PositionValue[20, 5] = 1;
             Positions.PositionValue[19, 4] = 1;
             Positions.PositionValue[19, 5] = 1;
-            OriStatePre(new int[] { 3, 4, 4, 5 }, new int[] { 20, 20, 19, 19 });
+            OriStatePre(new int[] { 4, 5, 4, 5 }, new int[] { 20, 20, 19, 19 });
+        }
+        /*
+         表达形状   0
+                    000
+           */
+        public void FivePosition()
+        {
+            Positions.PositionValue[20, 4] = 1;
+            Positions.PositionValue[19, 4] = 1;
+            Positions.PositionValue[19, 5] = 1;
+            Positions.PositionValue[19, 6] = 1;
+            OriStatePre(new int[] { 4, 4, 5, 5 }, new int[] { 20, 19, 19, 19 });
 
         }
-        //返回图形位置
-        public int[,] ThreePosition()
+        /*
+         表达形状    0
+                    000
+           */
+        public void SixPosition()
         {
-            Positions.PositionValue[4, 25] = 1;
-            Positions.PositionValue[5, 25] = 1;
-            Positions.PositionValue[5, 24] = 1;
-            Positions.PositionValue[6, 24] = 1;
-            return Positions.PositionValue;
-        }
-        //返回图形位置
-        public int[,] FourPosition()
-        {
-            Positions.PositionValue[4, 25] = 1;
-            Positions.PositionValue[5, 25] = 1;
-            Positions.PositionValue[5, 24] = 1;
-            Positions.PositionValue[6, 24] = 1;
-            return Positions.PositionValue;
+            Positions.PositionValue[19, 4] = 1;
+            Positions.PositionValue[20, 5] = 1;
+            Positions.PositionValue[19, 5] = 1;
+            Positions.PositionValue[19, 6] = 1;
+            OriStatePre(new int[] { 4, 5, 5, 6 }, new int[] { 19, 20, 19, 19 });
 
         }
-        //返回图形位置
-        public int[,] FivePosition()
+        /*
+         表达形状     0
+                    000
+           */
+        public void SevenPosition()
         {
-            Positions.PositionValue[4, 25] = 1;
-            Positions.PositionValue[5, 25] = 1;
-            Positions.PositionValue[5, 24] = 1;
-            Positions.PositionValue[6, 24] = 1;
-            return Positions.PositionValue;
-
-        }
-        //返回图形位置
-        public int[,] SixPosition()
-        {
-            Positions.PositionValue[4, 25] = 1;
-            Positions.PositionValue[5, 25] = 1;
-            Positions.PositionValue[5, 24] = 1;
-            Positions.PositionValue[6, 24] = 1;
-            return Positions.PositionValue;
-
-        }
-        //返回图形位置                                
-        public int[,] SevenPosition()
-        {
-            Positions.PositionValue[4, 25] = 1;
-            Positions.PositionValue[5, 25] = 1;
-            Positions.PositionValue[5, 24] = 1;
-            Positions.PositionValue[6, 24] = 1;
-            return Positions.PositionValue;
+            Positions.PositionValue[19, 4] = 1;
+            Positions.PositionValue[19, 5] = 1;
+            Positions.PositionValue[19, 6] = 1;
+            Positions.PositionValue[20, 6] = 1;
+            OriStatePre(new int[] { 4, 5, 6, 6 }, new int[] { 19, 19, 19, 20 });
 
         }
         #endregion
@@ -101,7 +129,7 @@ namespace GameCore
         /// <param name="x">坐标x数组数据</param>
         /// <param name="y">坐标y数组数据</param>
         /// <returns></returns>
-        public static int[,] OriStatePre(int[] x, int[] y)
+        public static void OriStatePre(int[] x, int[] y)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -111,7 +139,6 @@ namespace GameCore
             {
                 Positions.StationPre[1, i] = y[i];
             }
-            return Positions.StationPre;
         }
         #endregion
         /// <summary>
@@ -143,17 +170,16 @@ namespace GameCore
         /// </summary>
         public string MoveRight(object data)
         {
-
-            for (int x = Positions.StationPre.GetLength(1)-1; 0 <=x; x--)
+            for (int x = Positions.StationPre.GetLength(1) - 1; 0 <= x; x--)
             {
                 if (CheckXY())
                 {
                     return "到达底部";
                 }
-                    if (Positions.StationPre[0, x] < 9)
+                if (Positions.StationPre[0, x] < 9)
                 {
-                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
-                
+
+                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] == 1 ? Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1 : 0;
                     Positions.StationPre[0, x] = Positions.StationPre[0, x] + 1;
                     Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
                 }
@@ -173,21 +199,35 @@ namespace GameCore
         {
             if (CheckXY())
             {
-                return "到达底部";
+                return "碰撞";
             }
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
-                if (!(Positions.StationPre[1, y] < 1))
+                if (Positions.StationPre[1, y] == 1)
                 {
-                    Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 0;
-                    Positions.StationPre[1, y] = Positions.StationPre[1, y] - 1;
-                    Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
-                }
-                else
-                {
-                    Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 2;
+                    for (int i = 0; i < Positions.StationPre.GetLength(1); i++)
+                    {
+                        Positions.PositionValue[Positions.StationPre[1, i], Positions.StationPre[0, i]] = 0;
+                    }
+
+                    for (int Z = 0; Z < Positions.StationPre.GetLength(1); Z++)
+                    {
+                        Positions.StationPre[1, Z] = Positions.StationPre[1, Z] - 1;
+                        Positions.PositionValue[Positions.StationPre[1, Z], Positions.StationPre[0, Z]] = 2;
+                    }
                     return "到达底部";
-                }                
+                }
+            }
+
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            {
+                Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 0;
+            }
+
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            {
+                Positions.StationPre[1, y] = Positions.StationPre[1, y] - 1;
+                Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
             }
             return "向下移动返回消息";
         }
@@ -203,12 +243,11 @@ namespace GameCore
         {
             for (int checkXY = Positions.StationPre.GetLength(1) - 1; 0 <= checkXY; checkXY--)
             {
-                if (Positions.PositionValue[Positions.StationPre[1, checkXY], Positions.StationPre[0, checkXY]] == 2)
+                if (Positions.PositionValue[Positions.StationPre[1, checkXY] - 1 > 0 ? Positions.StationPre[1, checkXY] - 1 : 0, Positions.StationPre[0, checkXY]] == 2)
                 {
                     for (int i = Positions.StationPre.GetLength(1) - 1; 0 <= i; i--)
                     {
                         Positions.PositionValue[Positions.StationPre[1, i], Positions.StationPre[0, i]] = 2;
-
                     }
                     return true;
                 }
@@ -216,6 +255,4 @@ namespace GameCore
             return false;
         }
     }
-
-
 }
