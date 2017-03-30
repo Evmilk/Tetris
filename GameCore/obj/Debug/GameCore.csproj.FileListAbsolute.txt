@@ -2,3 +2,4 @@ F:\Tetris\GameCore\bin\Debug\GameCore.dll
 F:\Tetris\GameCore\bin\Debug\GameCore.pdb
 F:\Tetris\GameCore\obj\Debug\GameCore.dll
 F:\Tetris\GameCore\obj\Debug\GameCore.pdb
+F:\Tetris\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache

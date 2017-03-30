@@ -65,11 +65,11 @@ namespace GameCore
            */
         public void ThreePosition()
         {
-            Positions.PositionValue[20, 5] = 1;
             Positions.PositionValue[20, 4] = 1;
-            Positions.PositionValue[19, 4] = 1;
+            Positions.PositionValue[20, 3] = 1;
             Positions.PositionValue[19, 3] = 1;
-            OriStatePre(new int[] { 5, 4, 4, 3 }, new int[] { 20, 20, 19, 19 });
+            Positions.PositionValue[19, 2] = 1;
+            OriStatePre(new int[] { 4, 3, 3, 2 }, new int[] { 20, 20, 19, 19 });
         }
         /*
          表达形状   00
@@ -77,11 +77,11 @@ namespace GameCore
            */
         public void FourPosition()
         {
+            Positions.PositionValue[20, 3] = 1;
             Positions.PositionValue[20, 4] = 1;
-            Positions.PositionValue[20, 5] = 1;
+            Positions.PositionValue[19, 3] = 1;
             Positions.PositionValue[19, 4] = 1;
-            Positions.PositionValue[19, 5] = 1;
-            OriStatePre(new int[] { 4, 5, 4, 5 }, new int[] { 20, 20, 19, 19 });
+            OriStatePre(new int[] { 3, 4, 3, 4 }, new int[] { 20, 20, 19, 19 });
         }
         /*
          表达形状   0
@@ -89,11 +89,11 @@ namespace GameCore
            */
         public void FivePosition()
         {
-            Positions.PositionValue[20, 4] = 1;
+            Positions.PositionValue[20, 3] = 1;
+            Positions.PositionValue[19, 3] = 1;
             Positions.PositionValue[19, 4] = 1;
             Positions.PositionValue[19, 5] = 1;
-            Positions.PositionValue[19, 6] = 1;
-            OriStatePre(new int[] { 4, 4, 5, 5 }, new int[] { 20, 19, 19, 19 });
+            OriStatePre(new int[] { 3, 3, 4, 5 }, new int[] { 20, 19, 19, 19 });
 
         }
         /*
@@ -102,11 +102,11 @@ namespace GameCore
            */
         public void SixPosition()
         {
+            Positions.PositionValue[19, 3] = 1;
+            Positions.PositionValue[20, 4] = 1;
             Positions.PositionValue[19, 4] = 1;
-            Positions.PositionValue[20, 5] = 1;
             Positions.PositionValue[19, 5] = 1;
-            Positions.PositionValue[19, 6] = 1;
-            OriStatePre(new int[] { 4, 5, 5, 6 }, new int[] { 19, 20, 19, 19 });
+            OriStatePre(new int[] { 3, 4, 4, 5 }, new int[] { 19, 20, 19, 19 });
 
         }
         /*
@@ -115,11 +115,11 @@ namespace GameCore
            */
         public void SevenPosition()
         {
+            Positions.PositionValue[19, 3] = 1;
             Positions.PositionValue[19, 4] = 1;
             Positions.PositionValue[19, 5] = 1;
-            Positions.PositionValue[19, 6] = 1;
-            Positions.PositionValue[20, 6] = 1;
-            OriStatePre(new int[] { 4, 5, 6, 6 }, new int[] { 19, 19, 19, 20 });
+            Positions.PositionValue[20, 5] = 1;
+            OriStatePre(new int[] { 3, 4, 5, 5 }, new int[] { 19, 19, 19, 20 });
         }
         #endregion
 
@@ -148,25 +148,25 @@ namespace GameCore
         public string MoveLeft(object data)
         {
             //左移动作 
-            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
             {
-                if (0 < Positions.StationPre[0, y])
+                if (Positions.StationPre[0, x] == 0)
                 {
-                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
-                    {
-                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
-                    }
-                    //右移赋值 y方向值不变， x方向值加 1
-                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
-                    {
-                        Positions.StationPre[0, x] = Positions.StationPre[0, x] - 1;
-                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
-                    }
-
-                    return "左移返回消息";
+                    return "到达边界";
                 }
             }
-            return "到达边界";
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+                Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
+            }
+            //右移赋值 y方向值不变， x方向值加 1
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+                Positions.StationPre[0, x] = Positions.StationPre[0, x] - 1;
+                Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
+            }
+
+            return "左移返回消息";
         }
         /// <summary>
         /// 方块向右移动
@@ -174,25 +174,27 @@ namespace GameCore
         public string MoveRight(object data)
         {
             //右移动作
-            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
             {
-                if (Positions.StationPre[0, y] < 9)
+                if (Positions.StationPre[0, x] == 9)
                 {
-                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
-                    {
-                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
-                    }
-
-                    //右移赋值 y方向值不变， x方向值加 1
-                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
-                    {
-                        Positions.StationPre[0, x] = Positions.StationPre[0, x] + 1;
-                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
-                    }
-                    return "右移返回消息";
+                    return "到达边界";
                 }
             }
-            return "到达边界";
+
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+                Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
+            }
+
+            //右移赋值 y方向值不变， x方向值加 1
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+                Positions.StationPre[0, x] = Positions.StationPre[0, x] + 1;
+                Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
+            }
+            return "右移返回消息";
+
         }
         /// <summary>
         /// 方块下落
