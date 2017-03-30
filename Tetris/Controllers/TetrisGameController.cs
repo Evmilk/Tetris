@@ -1,34 +1,36 @@
 ﻿using System.Web.Mvc;
 using GameCore;
 using System.Collections.Generic;
+using System;
 
 namespace Tetris.Controllers
 {
     public class TetrisGameController : Controller
     {
-        public static int a = 1;
-        public static List<string> I = new List<string>();
-        public static List<string> i1 = new List<string>();
         public static OriginPositon originPosition = new OriginPositon();
         // GET: TetrisGame
         public ActionResult Index()
         {
-            originPosition.OnePosition();
+            return View();
+        }
+
+        #region ForTest
+
+        public ActionResult Test()
+        {
 
             return View();
         }
-        public ActionResult Test()
-        {
-            i1.Add("1");
-            return View(i1);
-        }
         public ActionResult Test2()
         {
-            return View(i1);
+            return View();
         }
-        public string Start(string BType)
+
+        #endregion
+
+        public string Start()
         {
-            return "";
+               return   Genarate();
         }
         public string Left(string BType)
         {
@@ -40,29 +42,28 @@ namespace Tetris.Controllers
         }
         public string Down(string BType)
         {
-            if (BType == "#div8")
-            {
-                if (a == 1)
-                {
-                    originPosition.TwoPosition();
-                    foreach (var item in GameCore.Positions.PositionValue)
-                    {
-                        a++;
-                        return originPosition.Down(null);
-                    }
-
-                }
-
-                else
-                {
-                    foreach (var item in GameCore.Positions.PositionValue)
-                    {
-                        return originPosition.Down(null);
-                    }
-
-                }
-            }
             return originPosition.Down(null);
+        }
+        /// <summary>
+        /// 生成 方块
+        /// </summary>
+        /// <returns></returns>
+        public string Genarate()
+        {
+            Random random = new Random();
+            int ran = random.Next(1, 7);
+            switch (ran)
+            {
+                case 1: originPosition.OnePosition(); break;
+                case 2: originPosition.TwoPosition(); break;
+                case 3: originPosition.ThreePosition(); break;
+                case 4: originPosition.FourPosition(); break;
+                case 5: originPosition.FivePosition(); break;
+                case 6: originPosition.SixPosition(); break;
+                case 7: originPosition.SevenPosition(); break;
+                default: break;
+            }
+            return "#div"+ran;
         }
     }
 }

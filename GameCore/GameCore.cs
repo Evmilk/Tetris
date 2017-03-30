@@ -12,8 +12,6 @@ namespace GameCore
     /// </summary>
     public static class GameLogic
     {
-
-
         public static int CheckFull()
         {
             return 0;       
@@ -47,5 +45,6 @@ namespace GameCore
         {
 
         }
+
     }
 }

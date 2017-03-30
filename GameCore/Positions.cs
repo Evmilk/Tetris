@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GameCore
 {
     /// <summary>
-    /// 俄罗斯方块21列10行
+    /// 俄罗斯方块21列10行 方块数据表达
     /// </summary>
     public static class Positions
     {
@@ -24,9 +24,11 @@ namespace GameCore
         /// </summary>
         static public int Y = 24;
     }
+
+
     public class OriginPositon : IPositions
     {
-        #region 初始图形位置定位
+        #region 初始图形位置定位 各x方向位置 从零开始计算 0,1,2,3..........
         //返回图形位置
         /*
         表达时注意数组的属性从零开始计算
@@ -118,7 +120,6 @@ namespace GameCore
             Positions.PositionValue[19, 6] = 1;
             Positions.PositionValue[20, 6] = 1;
             OriStatePre(new int[] { 4, 5, 6, 6 }, new int[] { 19, 19, 19, 20 });
-
         }
         #endregion
 
@@ -146,49 +147,52 @@ namespace GameCore
         /// </summary>
         public string MoveLeft(object data)
         {
-            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            //左移动作 
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
-                if (CheckXY())
+                if (0 < Positions.StationPre[0, y])
                 {
-                    return "到达底部";
-                }
-                if (!(Positions.StationPre[0, x] < 1))
-                {
-                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
-                    Positions.StationPre[0, x] = Positions.StationPre[0, x] - 1;
-                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
-                }
-                else
-                {
-                    return "到达边界";
+                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+                    {
+                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
+                    }
+                    //右移赋值 y方向值不变， x方向值加 1
+                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+                    {
+                        Positions.StationPre[0, x] = Positions.StationPre[0, x] - 1;
+                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
+                    }
+
+                    return "左移返回消息";
                 }
             }
-            return "左移返回消息";
+            return "到达边界";
         }
         /// <summary>
         /// 方块向右移动
         /// </summary>
         public string MoveRight(object data)
         {
-            for (int x = Positions.StationPre.GetLength(1) - 1; 0 <= x; x--)
+            //右移动作
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
-                if (CheckXY())
+                if (Positions.StationPre[0, y] < 9)
                 {
-                    return "到达底部";
-                }
-                if (Positions.StationPre[0, x] < 9)
-                {
+                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+                    {
+                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
+                    }
 
-                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] == 1 ? Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1 : 0;
-                    Positions.StationPre[0, x] = Positions.StationPre[0, x] + 1;
-                    Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
-                }
-                else
-                {
-                    return "到达边界";
+                    //右移赋值 y方向值不变， x方向值加 1
+                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+                    {
+                        Positions.StationPre[0, x] = Positions.StationPre[0, x] + 1;
+                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 1;
+                    }
+                    return "右移返回消息";
                 }
             }
-            return "右移返回消息";
+            return "到达边界";
         }
         /// <summary>
         /// 方块下落
@@ -203,6 +207,7 @@ namespace GameCore
             }
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
+                //判断是否是到达底部的状态 如果是者执行完直接返回 到达底部信息
                 if (Positions.StationPre[1, y] == 1)
                 {
                     for (int i = 0; i < Positions.StationPre.GetLength(1); i++)
@@ -219,6 +224,7 @@ namespace GameCore
                 }
             }
 
+            #region 正常没有到达底部时的执行
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
                 Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 0;
@@ -230,6 +236,7 @@ namespace GameCore
                 Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
             }
             return "向下移动返回消息";
+            #endregion
         }
         /// <summary>
         /// 方块变形

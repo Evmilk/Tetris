@@ -20,7 +20,7 @@
         <input type="button" name="下落" value="下落" onclick="downs()" />
     </div>
     <div id="TopPos" style="position:relative;width:300px;height:630px;margin:auto;border:dotted">
-        <div id="div1" style="display:block">
+        <div id="div1" style="display:none">
             <div id="div11" style="position:absolute;left:90px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
             <div id="div21" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
             <div id="div31" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
@@ -64,16 +64,15 @@
             <div id="div47" style="position:absolute;left:150px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
         </div>
     </div>
-    <div id="flag" style="float:left" hidden>#div1</div>
+    <div id="flag" style="float:left" hidden>""</div>
     <script>
         function start() {
             $.ajax({
                 url: "../../TetrisGame/Start",
                 data: { "BType": "1" },
-                success: function () { alert("开始") }
+                success: function (data) { $("#flag").text(data); $(data).css("display", "block");}
             })
         }
-
         function rights() {
             $.ajax({
                 url: "../../TetrisGame/right",
@@ -84,7 +83,8 @@
 
         function right(data) {
             if (data == "右移返回消息") {
-                var x = $("#div1").find("div");
+                var paid = $("#flag").text();
+                var x = $(paid).find("div");
                 for (var i = 0; i < x.length; i++) {
                     var idname = x[i].id;
                     var num = $("#" + idname).position().left + 30;
@@ -106,16 +106,13 @@
 
         function left(data) {
             if (data == "左移返回消息") {
-                var x = $("#div1").find("div");
+                var paid = $("#flag").text();
+                var x = $(paid).find("div");
                 for (var i = 0; i < x.length; i++) {
                     var idname = x[i].id;
                     var num = $("#" + idname).position().left - 30;
                     $("#" + idname).css("left", num + "px");
-                    //alert(num);
                 }
-            }
-            else if (data == "0") {
-                $("#div2").remove();
             }
             else {
                 alert(data);
@@ -142,16 +139,14 @@
             }
 
             else if (data.substr(0,4) == "到达底部") {
-                $("#div8").css("display", "block");
-                $("#div1").css("display", "block");
-                var x = $("#div1").find("div");
+                var paid = $("#flag").text();
+                var x = $(paid).find("div");
                 for (var i = 0; i < x.length; i++) {
                     var idname = x[i].id;
                     var num = $("#" + idname).position().top + 30;
                     $("#" + idname).css("top", num + "px");
                 }
-                alert("from 8");
-                $("#flag").text("#div8")
+                $("#flag").text(data.substr(4));
             }
             else {
                 alert(data);
