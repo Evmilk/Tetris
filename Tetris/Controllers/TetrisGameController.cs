@@ -18,7 +18,20 @@ namespace Tetris.Controllers
 
         public ActionResult Test()
         {
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            try
+            {
+                if (string.IsNullOrEmpty(d["1"]))
+                {
+                    int a = 1;
+                }
+            }
+            catch (Exception)
+            {
 
+                d["1"] = "2";
+            }
+            int c = d.Count;
             return View();
         }
         public ActionResult Test2()
