@@ -18,20 +18,6 @@ namespace Tetris.Controllers
 
         public ActionResult Test()
         {
-            Dictionary<string, string> d = new Dictionary<string, string>();
-            try
-            {
-                if (string.IsNullOrEmpty(d["1"]))
-                {
-                    int a = 1;
-                }
-            }
-            catch (Exception)
-            {
-
-                d["1"] = "2";
-            }
-            int c = d.Count;
             return View();
         }
         public ActionResult Test2()
@@ -56,6 +42,11 @@ namespace Tetris.Controllers
         public string Down(string BType)
         {
             return originPosition.Down(null);
+        }
+
+        public string Switching(string BType)
+        {
+            return originPosition.Switching(null);
         }
         /// <summary>
         /// 生成 方块

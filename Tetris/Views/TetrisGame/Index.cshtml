@@ -18,6 +18,7 @@
         <input type="button" name="左移" value="左移" onclick="lefts()" />
         <input type="button" name="右移" value="右移" onclick="rights()" />
         <input type="button" name="下落" value="下落" onclick="downs()" />
+        <input type="button" name="下落" value="变形" onclick="stings()" />
     </div>
     <div id="TopPos" style="position:relative;width:300px;height:630px;margin:auto;border:dotted">
         <div id="div1" style="display:none">
@@ -51,7 +52,7 @@
             <div id="div45" style="position:absolute;left:150px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
         </div>
 
-        <div id="div6" style="display:none">            
+        <div id="div6" style="display:none">
             <div id="div16" style="position:absolute;left:90px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
             <div id="div26" style="position:absolute;left:120px;top:0px;width:30px;height:30px;background-color:palegreen;">1</div>
             <div id="div36" style="position:absolute;left:120px;top:30px;width:30px;height:30px;background-color:palegreen;">1</div>
@@ -70,9 +71,45 @@
             $.ajax({
                 url: "../../TetrisGame/Start",
                 data: { "BType": "1" },
-                success: function (data) { $("#flag").text(data); $(data).css("display", "block");}
+                success: function (data) { $("#flag").text(data); $(data).css("display", "block"); }
             })
         }
+        function stings() {
+            $.ajax({
+                url: "../../TetrisGame/Switching",
+                data: { "BType": "1" },
+                success: sting
+            })
+        }
+
+        function sting(data) {
+          
+            alert("11");
+            var s = JSON.stringify(data);
+            s.replace("\"","");
+            var afs = s.split(",");
+          
+            for (var i = 0; i < afs.length; i++) {
+                alert(afs[i]);
+            }
+
+
+            var paid = $("#flag").text();
+
+            var x = $(paid).find("div");
+
+            for (var i = 0; i < 4; i++) {
+                var s = data[0];
+            }
+            for (var i = 0; i < x.length; i++) {
+                var idname = x[i].id;
+                var leftnum = (data[0] - 1) * 30;
+                var topnum = (data[0 + 4] - 1) * 30;
+                $("#" + idname).css("left", leftnum + "px");
+                $("#" + idname).css("top", topnum + "px");
+            }
+        }
+
         function rights() {
             $.ajax({
                 url: "../../TetrisGame/right",
@@ -135,10 +172,10 @@
                     var idname = x[i].id;
                     var num = $("#" + idname).position().top + 30;
                     $("#" + idname).css("top", num + "px");
-                }         
+                }
             }
 
-            else if (data.substr(0,4) == "到达底部") {
+            else if (data.substr(0, 4) == "到达底部") {
                 var paid = $("#flag").text();
                 var x = $(paid).find("div");
                 for (var i = 0; i < x.length; i++) {

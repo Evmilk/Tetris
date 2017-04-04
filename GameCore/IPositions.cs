@@ -11,6 +11,6 @@ namespace GameCore
         string MoveLeft(object data);
         string MoveRight(object data);
        string Down(object data);
-        string Switch(object data);
+        string Switching(object data);
     }
 }
