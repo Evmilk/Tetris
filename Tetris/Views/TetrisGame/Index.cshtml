@@ -165,14 +165,7 @@
             }
 
             else if (data.substr(0, 4) == "到达底部") {
-                var paid = $("#flag").text();
-                var x = $(paid).find("div");
-                for (var i = 0; i < x.length; i++) {
-                    var idname = x[i].id;
-                    var num = $("#" + idname).position().top + 30;
-                    $("#" + idname).css("top", num + "px");
-                }
-                $("#flag").text(data.substr(4));
+                alert(data);
             }
             else {
                 alert(data);

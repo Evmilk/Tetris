@@ -161,6 +161,7 @@ namespace GameCore
                     return "到达边界";
                 }
             }
+
             MakeZero();
             //右移赋值 y方向值不变， x方向值加 1
             for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
@@ -186,6 +187,7 @@ namespace GameCore
                     return "到达边界";
                 }
             }
+
             MakeZero();
 
             //右移赋值 y方向值不变， x方向值加 1
@@ -211,14 +213,6 @@ namespace GameCore
             {
                 return "碰撞";
             }
-            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
-            {
-                //判断是否是到达底部的状态 如果是者执行完直接返回 到达底部信息
-                if (Positions.StationPre[1, y] == 0)
-                { 
-                    return "到达底部";
-                }
-            }
             #region 正常没有到达底部时的执行
             MakeZero();
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
@@ -226,10 +220,9 @@ namespace GameCore
                 Positions.StationPre[1, y] = Positions.StationPre[1, y] - 1;
                 Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
             }
-            //检查是否到达底部 到达话则全部重新赋值 
+            //检查是否到达底部 到的话则全部重新赋值 
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
-
                 if (Positions.StationPre[1, y] == 0)
                 {
                     MakeZero();
@@ -254,7 +247,8 @@ namespace GameCore
             {
                 int tempX = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Cos(Math.PI * 90 / 180) - (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Sin(Math.PI * 90 / 180) + Positions.RotateX);
                 int tempY = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Sin(Math.PI * 90 / 180) + (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Cos(Math.PI * 90 / 180) + Positions.RotateY);
-                if (tempX < 0 || tempX > 9 || tempY < 0 || tempY > 20)
+               //判断是否 到边界可以旋转 ,旋转是否有碰撞
+                if (tempX < 0 || tempX > 9 || tempY < 0 || tempY > 20 || (Positions.PositionValue[tempY, tempX] == 2))
                 {
                     return "无法旋转";
                 }
@@ -288,11 +282,13 @@ namespace GameCore
                 Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
             }
         }
+        //判断是否 碰撞
         public bool CheckXY()
         {
             for (int checkXY = Positions.StationPre.GetLength(1) - 1; 0 <= checkXY; checkXY--)
             {
-                if (Positions.PositionValue[Positions.StationPre[1, checkXY] - 1 > 0 ? Positions.StationPre[1, checkXY] - 1 : 0, Positions.StationPre[0, checkXY]] == 2)
+                //判断是否对下面碰撞
+                if (Positions.PositionValue[Positions.StationPre[1, checkXY] - 1 >= 0 ? Positions.StationPre[1, checkXY] - 1 : 0, Positions.StationPre[0, checkXY]] == 2)
                 {
                     for (int i = Positions.StationPre.GetLength(1) - 1; 0 <= i; i--)
                     {
