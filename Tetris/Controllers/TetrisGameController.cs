@@ -54,8 +54,9 @@ namespace Tetris.Controllers
         /// <returns></returns>
         public string Genarate()
         {
-            Random random = new Random();
-            int ran = random.Next(1, 7);
+            Random randoming = new Random();
+            int ran =randoming.Next(1,7);
+            int a = 6;
             switch (ran)
             {
                 case 1: originPosition.OnePosition(); break;

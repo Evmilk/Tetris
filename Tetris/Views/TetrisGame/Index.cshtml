@@ -83,28 +83,17 @@
         }
 
         function sting(data) {
-          
-            alert("11");
-            var s = JSON.stringify(data);
-            s.replace("\"","");
-            var afs = s.split(",");
-          
-            for (var i = 0; i < afs.length; i++) {
-                alert(afs[i]);
+            if (data=="无法旋转") {
+                alert(data);
+                return;
             }
-
-
+            var sxy = JSON.parse(data);
             var paid = $("#flag").text();
-
             var x = $(paid).find("div");
-
-            for (var i = 0; i < 4; i++) {
-                var s = data[0];
-            }
             for (var i = 0; i < x.length; i++) {
                 var idname = x[i].id;
-                var leftnum = (data[0] - 1) * 30;
-                var topnum = (data[0 + 4] - 1) * 30;
+                var leftnum = sxy[i] * 30;
+                var topnum = (20-sxy[i + 4]) * 30;
                 $("#" + idname).css("left", leftnum + "px");
                 $("#" + idname).css("top", topnum + "px");
             }

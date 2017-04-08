@@ -18,7 +18,7 @@ namespace GameCore
         //记录单一方块坐标，用二维数组表示
         public static int[,] StationPre = new int[2, 4];
         //只存储一个值(旋转定位中心) 表示方式[x,y]
-        public static int RotateX ;
+        public static int RotateX;
         public static int RotateY;
 
     }
@@ -26,6 +26,8 @@ namespace GameCore
 
     public class OriginPositon : IPositions
     {
+
+
         #region 初始图形位置定位 各x方向位置 从零开始计算 0,1,2,3..........
         //返回图形位置
         /*
@@ -170,6 +172,7 @@ namespace GameCore
             Positions.RotateX = Positions.RotateX - 1;
             return "左移返回消息";
         }
+
         /// <summary>
         /// 方块向右移动
         /// </summary>
@@ -211,28 +214,29 @@ namespace GameCore
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
                 //判断是否是到达底部的状态 如果是者执行完直接返回 到达底部信息
-                if (Positions.StationPre[1, y] == 1)
-                {
-
-                    MakeZero();
-
-                    for (int Z = 0; Z < Positions.StationPre.GetLength(1); Z++)
-                    {
-                        Positions.StationPre[1, Z] = Positions.StationPre[1, Z] - 1;
-                        Positions.PositionValue[Positions.StationPre[1, Z], Positions.StationPre[0, Z]] = 2;
-                    }
+                if (Positions.StationPre[1, y] == 0)
+                { 
                     return "到达底部";
                 }
             }
-
             #region 正常没有到达底部时的执行
             MakeZero();
-
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
                 Positions.StationPre[1, y] = Positions.StationPre[1, y] - 1;
                 Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
             }
+            //检查是否到达底部 到达话则全部重新赋值 
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            {
+
+                if (Positions.StationPre[1, y] == 0)
+                {
+                    MakeZero();
+                    Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 2;
+                }
+            }
+            //旋转坐标 Y方向 减一
             Positions.RotateY = Positions.RotateY - 1;
             return "向下移动返回消息";
             #endregion
@@ -248,8 +252,8 @@ namespace GameCore
             //判断是否适合旋转 若不适合旋转直接返回
             for (int xy = 0; xy < Positions.StationPre.GetLength(1); xy++)
             {
-                int tempX = (int)((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Cos(90) - (Positions.StationPre[0, xy] - Positions.RotateX) * Math.Sin(90) + Positions.RotateX);
-                int tempY = (int)((Positions.StationPre[1, xy] - Positions.RotateY) * Math.Sin(90) + (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Cos(90) + Positions.RotateY);
+                int tempX = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Cos(Math.PI * 90 / 180) - (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Sin(Math.PI * 90 / 180) + Positions.RotateX);
+                int tempY = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Sin(Math.PI * 90 / 180) + (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Cos(Math.PI * 90 / 180) + Positions.RotateY);
                 if (tempX < 0 || tempX > 9 || tempY < 0 || tempY > 20)
                 {
                     return "无法旋转";
@@ -260,11 +264,10 @@ namespace GameCore
             //进行旋转 并记录旋转后的新坐标
             for (int xy = 0; xy < Positions.StationPre.GetLength(1); xy++)
             {
-                if (Positions.StationPre[0, xy] == 0)
-                {
-                    Positions.StationPre[0, xy] = (int)((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Cos(90) - (Positions.StationPre[0, xy] - Positions.RotateX) * Math.Sin(90) + Positions.RotateX);
-                    Positions.StationPre[1, xy] = (int)((Positions.StationPre[1, xy] - Positions.RotateY) * Math.Sin(90) + (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Cos(90) + Positions.RotateY);
-                }
+                int tempX = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Cos(Math.PI * 90 / 180) - (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Sin(Math.PI * 90 / 180) + Positions.RotateX);
+                int tempY = (int)Math.Round((Positions.StationPre[0, xy] - Positions.RotateX) * Math.Sin(Math.PI * 90 / 180) + (Positions.StationPre[1, xy] - Positions.RotateY) * Math.Cos(Math.PI * 90 / 180) + Positions.RotateY);
+                Positions.StationPre[0, xy] = tempX;
+                Positions.StationPre[1, xy] = tempY;
             }
 
             //对旋转后的坐标赋值为 1
@@ -274,20 +277,16 @@ namespace GameCore
             }
             JavaScriptSerializer js = new JavaScriptSerializer();
             string s = js.Serialize(Positions.StationPre);
-            s = s.Replace("[", "");
-            s = s.Replace("]","");
             return s;
-
         }
 
         //变换或者移动之前全部赋值为 0
         public void MakeZero()
-        {          
+        {
             for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
             {
                 Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 0;
             }
-
         }
         public bool CheckXY()
         {
