@@ -87,6 +87,7 @@
                 alert(data);
                 return;
             }
+
             var sxy = JSON.parse(data);
             var paid = $("#flag").text();
             var x = $(paid).find("div");
@@ -165,7 +166,13 @@
             }
 
             else if (data.substr(0, 4) == "到达底部") {
-                alert(data);
+                var paid = $("#flag").text();
+                var x = $(paid).find("div");
+                for (var i = 0; i < x.length; i++) {
+                    var idname = x[i].id;
+                    var num = $("#" + idname).position().top + 30;
+                    $("#" + idname).css("top", num + "px");
+                }
             }
             else {
                 alert(data);

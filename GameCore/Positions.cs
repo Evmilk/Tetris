@@ -161,7 +161,19 @@ namespace GameCore
                     return "到达边界";
                 }
             }
-
+            //上一个判断已经判断是否在边界，不用担心超出索引长度 如果碰撞者返回
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+               int XCol = Positions.StationPre[0, x] - 1;
+                if (Positions.PositionValue[Positions.StationPre[1, x], XCol] == 2)
+                {
+                    for (int i = Positions.StationPre.GetLength(1) - 1; 0 <= i; i--)
+                    {
+                        Positions.PositionValue[Positions.StationPre[1, i], Positions.StationPre[0, i]] = 2;
+                    }
+                    return "无法移动";
+                }
+            }
             MakeZero();
             //右移赋值 y方向值不变， x方向值加 1
             for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
@@ -185,6 +197,19 @@ namespace GameCore
                 if (Positions.StationPre[0, x] == 9)
                 {
                     return "到达边界";
+                }
+            }
+            //上一个判断已经判断是否在边界，不用担心超出索引长度 如果碰撞者返回
+            for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+            {
+                int XCol = Positions.StationPre[0, x] + 1;
+                if (Positions.PositionValue[Positions.StationPre[1, x], XCol] ==2)
+                {
+                    for (int i = Positions.StationPre.GetLength(1) - 1; 0 <= i; i--)
+                    {
+                        Positions.PositionValue[Positions.StationPre[1, i], Positions.StationPre[0, i]] = 2;
+                    }
+                    return "无法移动";
                 }
             }
 
@@ -214,20 +239,26 @@ namespace GameCore
                 return "碰撞";
             }
             #region 正常没有到达底部时的执行
+
             MakeZero();
+            //检查下一布是否到底部 是的话则全部重新赋值 为2
+            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
+            {
+                if (Positions.StationPre[1, y] == 1)
+                {
+                    for (int x = 0; x < Positions.StationPre.GetLength(1); x++)
+                    {
+                        Positions.StationPre[1, x] = Positions.StationPre[1, x] - 1;
+                        Positions.PositionValue[Positions.StationPre[1, x], Positions.StationPre[0, x]] = 2;
+                        return "到达底部";
+                    }
+                }
+            }
+            //正常下落判断
             for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
             {
                 Positions.StationPre[1, y] = Positions.StationPre[1, y] - 1;
                 Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 1;
-            }
-            //检查是否到达底部 到的话则全部重新赋值 
-            for (int y = 0; y < Positions.StationPre.GetLength(1); y++)
-            {
-                if (Positions.StationPre[1, y] == 0)
-                {
-                    MakeZero();
-                    Positions.PositionValue[Positions.StationPre[1, y], Positions.StationPre[0, y]] = 2;
-                }
             }
             //旋转坐标 Y方向 减一
             Positions.RotateY = Positions.RotateY - 1;
